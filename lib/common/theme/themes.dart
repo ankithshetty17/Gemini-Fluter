@@ -61,6 +61,6 @@ ThemeData darkMode = ThemeData(
       bodySmall: TextStyle(
           color: Color(0xff000000),
           fontSize: FontSizes.small
-      )
+      )   
   ),
 );

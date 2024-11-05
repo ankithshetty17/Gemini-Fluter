@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gemini/common/theme/theme_notifier.dart';
 import 'package:gemini/data/model/messages.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends ConsumerState<MyHomePage> {
   final TextEditingController _controlller = TextEditingController();
   final List<messages> _messages= [
     messages(text: 'Hi', isUser: true),
@@ -16,8 +20,36 @@ class _MyHomePageState extends State<MyHomePage> {
     messages(text: 'How Are You !!', isUser: true),
     messages(text: 'How Was Ur Dayy', isUser: false)
   ];
+  bool _isLoading =false;
+
+  callGeminiModel() async{
+   try{
+   if(_controlller.text.isNotEmpty){
+     _messages.add(messages(text: _controlller.text, isUser: true));
+     _isLoading= true;
+   }
+
+    final model = GenerativeModel(
+      model: 'gemini-pro',
+      apiKey: dotenv.env['google_api_key']!
+  );
+  final prompt = _controlller.text.trim();
+  final content = [Content.text(prompt)];
+  final response = await model.generateContent(content);
+ 
+  setState(() {
+    _messages.add(messages(text:response.text!, isUser:false));
+    _isLoading= false;
+  });
+  _controlller.clear();
+   } catch(e){
+    print('Error: $e');
+   }
+  }
+  
   @override
   Widget build(BuildContext context) {
+    final currentTheme = ref.read(themeProvider);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -31,8 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         actions: [
-          IconButton(onPressed: (){},
-           icon:const Icon(Icons.volume_down_alt,color: Colors.blue,))
+          IconButton(onPressed: (){
+              ref.read(themeProvider.notifier).toggleTheme();
+          },
+           icon:(currentTheme == ThemeMode.dark) ? Icon(Icons.light_mode,color:Theme.of(context).colorScheme.secondary,) 
+           : Icon(Icons.dark_mode,color: Theme.of(context).colorScheme.primary,)
+          ),
         ],
       ),
       body:
@@ -81,9 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 boxShadow:const  [
                   BoxShadow(
                     color:Color.fromARGB(255, 211, 244, 248),
-                    blurRadius: 5,
-                    spreadRadius: 2,
-                    offset: Offset(0, 2)
+                    blurRadius: 3,
+                    spreadRadius: 0,
+                    offset: Offset(2, 2)
                   )
                 ]
               ),
@@ -92,16 +128,30 @@ class _MyHomePageState extends State<MyHomePage> {
                   Expanded(
                     child: TextField(
                       controller: _controlller,
+                      style: Theme.of(context).textTheme.titleSmall,
                       decoration:const  InputDecoration(
                         hintText: 'Enter Message',
+                        hintStyle:TextStyle(color: Colors.grey),
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         border: InputBorder.none
                       ),
                     ),
                     ),
+                    _isLoading ?
+                     Padding(padding: EdgeInsets.all(12),
+                    child:
+                    SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(),
+                    )
+                    )
+                   : Padding(padding: EdgeInsets.all(12),
+                    child:
                     IconButton(
-                      onPressed: (){}, 
+                      onPressed: callGeminiModel, 
                       icon:const  Icon(Icons.send,color: Colors.blue,))
+                    ),
                 ],
               ),
             ),
