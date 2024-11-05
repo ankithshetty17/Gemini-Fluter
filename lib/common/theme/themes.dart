@@ -20,7 +20,7 @@ ThemeData lightMode = ThemeData(
       primary: Color(0xff3369FF),
       secondary: Color(0xffEEEEEE)
   ),
-  inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme:const InputDecorationTheme(
       labelStyle: TextStyle(color: Colors.blue)
   ),
   textTheme: const TextTheme(

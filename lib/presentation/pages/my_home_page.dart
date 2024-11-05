@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gemini/messages.dart';
+import 'package:gemini/data/model/messages.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -25,14 +25,14 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.background,
         title:Row(
           children: [
-            Icon(Icons.smart_toy_outlined,color: Colors.blue,size: 34,),
-            SizedBox(width: 5),
+           const  Icon(Icons.smart_toy_outlined,color: Colors.blue,size: 34,),
+           const  SizedBox(width: 5),
             Text('Gemini-Chat',style:  Theme.of(context).textTheme.titleLarge,)
           ],
         ),
         actions: [
           IconButton(onPressed: (){},
-           icon:Icon(Icons.volume_down_alt,color: Colors.blue,))
+           icon:const Icon(Icons.volume_down_alt,color: Colors.blue,))
         ],
       ),
       body:
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color:Colors.white),
-                boxShadow: [
+                boxShadow:const  [
                   BoxShadow(
                     color:Color.fromARGB(255, 211, 244, 248),
                     blurRadius: 5,

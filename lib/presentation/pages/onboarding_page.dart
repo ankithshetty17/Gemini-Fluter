@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gemini/my_home_page.dart';
+import 'package:gemini/presentation/pages/my_home_page.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -14,7 +14,7 @@ class OnboardingPage extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Column(
+        const   Column(
             children:[
           Text('Your Ai Assistant',
           style: TextStyle(color: Colors.blue,
@@ -46,7 +46,7 @@ class OnboardingPage extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(32)),
-                  padding: EdgeInsets.symmetric(horizontal: 32,vertical: 16)
+                  padding:const  EdgeInsets.symmetric(horizontal: 32,vertical: 16)
                 )
                ),
         ],
