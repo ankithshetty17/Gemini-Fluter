@@ -14,13 +14,8 @@ class MyHomePage extends ConsumerStatefulWidget {
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   final TextEditingController _controlller = TextEditingController();
-  final List<messages> _messages= [
-    messages(text: 'Hi', isUser: true),
-    messages(text: 'Hello', isUser: false),
-    messages(text: 'How Are You !!', isUser: true),
-    messages(text: 'How Was Ur Dayy', isUser: false)
-  ];
-  bool _isLoading =false;
+  final List<messages> _messages= [];
+  bool _isLoading = false;
 
   callGeminiModel() async{
    try{
@@ -41,7 +36,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     _messages.add(messages(text:response.text!, isUser:false));
     _isLoading= false;
   });
+
   _controlller.clear();
+
+
    } catch(e){
     print('Error: $e');
    }
@@ -137,12 +135,13 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                       ),
                     ),
                     ),
+                    SizedBox(width: 8,),
                     _isLoading ?
-                     Padding(padding: EdgeInsets.all(12),
+                     Padding(padding: EdgeInsets.all(8),
                     child:
                     SizedBox(
-                      height: 30,
-                      width: 30,
+                      height: 20,
+                      width: 20,
                       child: CircularProgressIndicator(),
                     )
                     )
