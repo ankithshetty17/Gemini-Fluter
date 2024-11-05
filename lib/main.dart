@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gemini/onboarding_page.dart';
+import 'package:gemini/themes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +12,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme:lightMode,
+      darkTheme: darkMode,
       home: OnboardingPage(),
     );
   }

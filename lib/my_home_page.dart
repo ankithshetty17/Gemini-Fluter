@@ -19,14 +19,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.background,
         title:Row(
           children: [
             Icon(Icons.smart_toy_outlined,color: Colors.blue,size: 34,),
             SizedBox(width: 5),
-            Text('Gemini-Chat',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),)
+            Text('Gemini-Chat',style:  Theme.of(context).textTheme.titleLarge,)
           ],
         ),
         actions: [
